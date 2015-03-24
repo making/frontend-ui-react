@@ -5,11 +5,14 @@ var CategoryItem = React.createClass({
     mixins: [],
     propTypes: {},
     render: function () {
-        var name = this.props.categoryName.join('::');
+        var separator = '::';
+        var ret = [], buf = [];
+        this.props.categoryName.forEach(function (c) {
+            buf.push(c);
+            ret.push('<a href="#/categories/' + buf.join(separator) + '/entries">' + c + '</a>');
+        });
         return (
-            <li>
-                <a>{name}</a>
-            </li>
+            <li dangerouslySetInnerHTML={{__html: ret.join(separator)}}></li>
         );
     }
 });
