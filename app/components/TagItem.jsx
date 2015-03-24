@@ -1,14 +1,15 @@
 var React = require('react');
-
+var Link = require('react-router').Link;
 
 var TagItem = React.createClass({
     mixins: [],
     propTypes: {},
     render: function () {
-        var url = 'http://blog.ik.am/#/tags/' + this.props.tagName + '/entries';
         return (
             <li>
-                <a href={url}>{this.props.tagName}</a>
+                <Link to="entriesByTag" params={{tagName: this.props.tagName}}>
+                {this.props.tagName}
+                </Link>
             </li>
         );
     }

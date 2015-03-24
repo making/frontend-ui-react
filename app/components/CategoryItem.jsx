@@ -1,5 +1,5 @@
 var React = require('react');
-
+var Link = require('react-router').Link;
 
 var CategoryItem = React.createClass({
     mixins: [],
@@ -9,10 +9,12 @@ var CategoryItem = React.createClass({
         var ret = [], buf = [];
         this.props.categoryName.forEach(function (c) {
             buf.push(c);
-            ret.push('<a href="#/categories/' + buf.join(separator) + '/entries">' + c + '</a>');
+            ret.push(<Link to="entriesByCategory" params={{category: buf.join(separator)}}>{c}</Link>);
+            ret.push(separator);
         });
+        ret.pop();
         return (
-            <li dangerouslySetInnerHTML={{__html: ret.join(separator)}}></li>
+            <li>{ret}</li>
         );
     }
 });

@@ -1,5 +1,7 @@
 var React = require('react');
 var Entries = require('./Entries.jsx');
+var EntriesByCategory = require('./EntriesByCategory.jsx');
+var EntriesByTag = require('./EntriesByTag.jsx');
 var Tags = require('./Tags.jsx');
 var Categories = require('./Categories.jsx');
 var RecentPosts = require('./RecentPosts.jsx');
@@ -42,8 +44,10 @@ var App = React.createClass({
 
 var routes = (
     <Route name="app" path="/" handler={App}>
-        <Route name="tags" handler={Tags}/>
+        <Route name="entriesByCategory" path="categories/:category/entries" handler={EntriesByCategory}/>
         <Route name="categories" handler={Categories}/>
+        <Route name="entriesByTag" path="tags/:tagName/entries" handler={EntriesByTag}/>
+        <Route name="tags" handler={Tags}/>
         <DefaultRoute handler={Entries}/>
     </Route>
 );

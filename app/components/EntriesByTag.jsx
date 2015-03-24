@@ -5,7 +5,7 @@ var EntriesModel = require('../models.jsx').EntriesModel;
 var Pageable = require('./Pageable.js');
 
 
-var Entries = React.createClass({
+var EntriesByTag = React.createClass({
     mixins: [Pageable],
     propTypes: {},
     contextTypes: {
@@ -19,15 +19,18 @@ var Entries = React.createClass({
         };
     },
     componentDidMount: function () {
-        var query = this.context.router.getCurrentQuery();
-        EntriesModel.findAll(query.page, query.size)
+        var params = this.context.router.getCurrentParams(),
+            query = this.context.router.getCurrentQuery();
+        EntriesModel.findByTagName(params.tagName, query.page, query.size)
             .then(function (x) {
                 this.setState(x);
             }.bind(this));
     },
     handlePageChanged: function (newPage) {
+        var params = this.context.router.getCurrentParams();
         this.changeLocation(newPage, this.state.size);
-        EntriesModel.findAll(newPage, this.state.size)
+
+        EntriesModel.findByTagName(params.tagName, newPage, this.state.size)
             .then(function (x) {
                 this.setState(x);
             }.bind(this));
@@ -41,6 +44,7 @@ var Entries = React.createClass({
         });
         return (
             <div>
+                <h2>Posts tagged with {this.context.router.getCurrentParams().tagName} ...</h2>
             {entries}
                 <Pager total={this.state.totalPages}
                     current={this.state.number}
@@ -51,4 +55,4 @@ var Entries = React.createClass({
     }
 
 });
-module.exports = Entries;
+module.exports = EntriesByTag;

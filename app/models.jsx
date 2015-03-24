@@ -1,11 +1,12 @@
 var rest = require('rest');
 var mime = require('rest/interceptor/mime');
 var pathPrefix = require('rest/interceptor/pathPrefix');
+var template = require('rest/interceptor/template');
 var defaultRequest = require('rest/interceptor/defaultRequest');
 
 var client = rest.wrap(mime)
     .wrap(defaultRequest, {headers: {'X-Formatted': 'true'}})
-    .wrap(pathPrefix, {prefix: 'http://localhost:8080/api/v1/'});
+    .wrap(pathPrefix, {prefix: 'http://blog.ik.am/api/v1/'});
 
 
 var createBaseModel = function (path, others) {
@@ -43,8 +44,37 @@ var EntriesModel = {
         })
             .then(returnEntity);
     },
+    findByCategory: function (category, page, size) {
+        page = page || 0;
+        size = size || 3;
+        return client({
+            path: 'categories/{category}/entries',
+            params: {
+                page: page,
+                size: size,
+                category: category
+            }
+        })
+            .then(returnEntity);
+    },
+    findByTagName: function (tagName, page, size) {
+        page = page || 0;
+        size = size || 3;
+        return client({
+            path: 'tags/{tagName}/entries',
+            params: {
+                page: page,
+                size: size,
+                tagName: tagName
+            }
+        })
+            .then(returnEntity);
+    },
     findOne: function (entryId) {
-        return client({path: 'entries/' + entryId})
+        return client({
+            path: 'entries/{entryId}',
+            params: {entryId: entryId}
+        })
             .then(returnEntity);
     }
 };
