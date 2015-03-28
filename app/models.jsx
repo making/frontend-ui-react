@@ -84,6 +84,19 @@ var EntriesModel = {
         })
             .then(returnEntity);
     },
+    findByKeyword: function (keyword, page, size) {
+        page = page || 0;
+        size = size || 3;
+        return client({
+            path: 'entries',
+            params: {
+                page: page,
+                size: size,
+                keyword: keyword
+            }
+        })
+            .then(returnEntity);
+    },
     findOne: function (entryId) {
         return client({
             path: 'entries/{entryId}',

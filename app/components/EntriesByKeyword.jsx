@@ -21,7 +21,7 @@ var EntriesByKeyword = React.createClass({
     componentDidMount: function () {
         var params = this.context.router.getCurrentParams(),
             query = this.context.router.getCurrentQuery();
-        EntriesModel.findByTagName(params.tagName, query.page, query.size)
+        EntriesModel.findByKeyword(params.keyword, query.page, query.size)
             .then(function (x) {
                 this.setState(x);
             }.bind(this));
@@ -30,7 +30,7 @@ var EntriesByKeyword = React.createClass({
         var params = this.context.router.getCurrentParams();
         this.changeLocation(newPage, this.state.size);
 
-        EntriesModel.findByTagName(params.tagName, newPage, this.state.size)
+        EntriesModel.findByKeyword(params.keyword, newPage, this.state.size)
             .then(function (x) {
                 this.setState(x);
             }.bind(this));
@@ -44,7 +44,7 @@ var EntriesByKeyword = React.createClass({
         });
         return (
             <div>
-                <h2>Posts tagged with {this.context.router.getCurrentParams().tagName} ...</h2>
+                <h2>Search for {this.context.router.getCurrentParams().keyword} ...</h2>
                 {entries}
                 <Pager total={this.state.totalPages}
                     current={this.state.number}
