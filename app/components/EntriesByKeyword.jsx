@@ -5,7 +5,7 @@ var EntriesModel = require('../models.jsx').EntriesModel;
 var Pageable = require('./Pageable.js');
 
 
-var EntriesByTag = React.createClass({
+var EntriesByKeyword = React.createClass({
     mixins: [Pageable],
     propTypes: {},
     contextTypes: {
@@ -55,4 +55,4 @@ var EntriesByTag = React.createClass({
     }
 
 });
-module.exports = EntriesByTag;
+module.exports = EntriesByKeyword;

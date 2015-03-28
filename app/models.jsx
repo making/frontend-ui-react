@@ -3,10 +3,11 @@ var mime = require('rest/interceptor/mime');
 var pathPrefix = require('rest/interceptor/pathPrefix');
 var template = require('rest/interceptor/template');
 var defaultRequest = require('rest/interceptor/defaultRequest');
+var Config = require('./Config.js');
 
 var client = rest.wrap(mime)
     .wrap(defaultRequest, {headers: {'X-Formatted': 'true'}})
-    .wrap(pathPrefix, {prefix: 'http://blog.ik.am/api/v1/'});
+    .wrap(pathPrefix, {prefix: Config.BLOG_URL + '/' + Config.API_ROOT});
 
 
 var createBaseModel = function (path, others) {
@@ -66,6 +67,19 @@ var EntriesModel = {
                 page: page,
                 size: size,
                 tagName: tagName
+            }
+        })
+            .then(returnEntity);
+    },
+    findByUsername: function (username, page, size) {
+        page = page || 0;
+        size = size || 3;
+        return client({
+            path: 'users/{username}/entries',
+            params: {
+                page: page,
+                size: size,
+                username: username
             }
         })
             .then(returnEntity);

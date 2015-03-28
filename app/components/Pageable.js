@@ -1,8 +1,13 @@
 var Pageable = {
     changeLocation: function (page, size) {
-        var idx = window.location.hash.indexOf('?');
-        var currentPath = idx > 0 ? window.location.hash.substring(0, idx) : window.location.hash;
-        window.location.hash = (currentPath + '?page=' + page + '&size=' + size);
+        var routes = this.context.router.getCurrentRoutes();
+        var route = routes[routes.length - 1];
+        this.context.router.transitionTo(route.path,
+            this.context.router.getCurrentParams(),
+            {
+                'page': page,
+                'size': size
+            });
     }
 };
 

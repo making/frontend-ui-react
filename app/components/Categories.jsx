@@ -1,7 +1,7 @@
 var React = require('react');
 var CategoryItem = require('./CategoryItem.jsx');
 var CategoriesModel = require('../models.jsx').CategoriesModel;
-
+var Config = require('../Config.js');
 
 var Categories = React.createClass({
     mixins: [],
@@ -17,7 +17,7 @@ var Categories = React.createClass({
     },
     render: function () {
         var categories = this.state.data.map(function (category) {
-            var key = category.categoryName.join('::');
+            var key = category.categoryName.join(Config.SEPARATOR);
             return (
                 <CategoryItem key={key} categoryName={category.categoryName}/>
             );

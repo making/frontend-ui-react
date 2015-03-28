@@ -3,11 +3,12 @@ var EntryItem = require('./EntryItem.jsx');
 var Pager = require('react-pager');
 var EntriesModel = require('../models.jsx').EntriesModel;
 var Pageable = require('./Pageable.js');
-var Link = require('react-router').Link;
+var Categorizer = require('./Categorizer.jsx');
+var Config = require('../Config.js');
 
 
 var EntriesByCategory = React.createClass({
-    mixins: [Pageable],
+    mixins: [Pageable, Categorizer],
     propTypes: {},
     contextTypes: {
         router: React.PropTypes.func
@@ -22,7 +23,6 @@ var EntriesByCategory = React.createClass({
     loadFromServer: function () {
         var params = this.context.router.getCurrentParams(),
             query = this.context.router.getCurrentQuery();
-        console.log(this.context.router.getCurrentParams());
         EntriesModel.findByCategory(params.category, query.page, query.size)
             .then(function (x) {
                 this.setState(x);
@@ -42,25 +42,21 @@ var EntriesByCategory = React.createClass({
         window.scroll(0, 0);
     },
     render: function () {
-        var entries = this.state.content.map(function (entry) {
-            return (
-                <EntryItem key={entry.entryId} entry={entry}/>
-            );
-        });
+        var entries = this.state.content
+            .map(function (entry) {
+                return (
+                    <EntryItem key={entry.entryId} entry={entry}/>
+                );
+            });
 
-        var separator = '::';
-        var ret = [], buf = [];
-        this.context.router.getCurrentParams().category.split(separator).forEach(function (c) {
-            buf.push(c);
-            ret.push(<Link to="entriesByCategory" params={{category: buf.join(separator)}}>{c}</Link>);
-            ret.push(separator);
-        });
-        ret.pop();
+        var separator = Config.SEPARATOR;
+        var category = this.context.router.getCurrentParams().category.split(separator);
+        var ret = this.createCategoryLink(category);
 
         return (
             <div>
                 <h2>{ret}</h2>
-            {entries}
+                {entries}
                 <Pager total={this.state.totalPages}
                     current={this.state.number}
                     visiblePages={5}

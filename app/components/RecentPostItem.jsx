@@ -1,15 +1,16 @@
 var React = require('react');
-
+var Link = require('react-router').Link;
 
 var RecentPostItem = React.createClass({
     mixins: [],
     propTypes: {},
     render: function () {
-        var styles = {};
-
+        var entry = this.props.entry;
         return (
             <li>
-                <a href={this.props.entry.entryId}>{this.props.entry.title}</a>
+                <Link to="entry" params={{entryId: entry.entryId}}>
+                    {entry.title}
+                </Link>
             </li>
         );
     }

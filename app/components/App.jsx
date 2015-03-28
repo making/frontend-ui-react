@@ -2,11 +2,13 @@ var React = require('react');
 var Entries = require('./Entries.jsx');
 var EntriesByCategory = require('./EntriesByCategory.jsx');
 var EntriesByTag = require('./EntriesByTag.jsx');
+var EntriesByUsername = require('./EntriesByUsername.jsx');
+var EntryById = require('./EntryById.jsx');
 var Tags = require('./Tags.jsx');
 var Categories = require('./Categories.jsx');
 var RecentPosts = require('./RecentPosts.jsx');
 var Links = require('./Links.jsx');
-
+var Config = require('../Config.js');
 // Router
 var Router = require('react-router');
 var DefaultRoute = Router.DefaultRoute;
@@ -22,8 +24,9 @@ var App = React.createClass({
         return (
             <div>
                 <h1>
-                    <Link to="app">Blog</Link>
+                    <Link to="app">{Config.BLOG_TITLE}</Link>
                 </h1>
+                <p>{Config.BLOG_DESCRIPTION}</p>
                 <ul>
                     <li>
                         <Link to="tags">All Tags</Link>
@@ -47,6 +50,8 @@ var routes = (
         <Route name="entriesByCategory" path="categories/:category/entries" handler={EntriesByCategory}/>
         <Route name="categories" handler={Categories}/>
         <Route name="entriesByTag" path="tags/:tagName/entries" handler={EntriesByTag}/>
+        <Route name="entriesByUsername" path="users/:username/entries" handler={EntriesByUsername}/>
+        <Route name="entry" path="entries/:entryId" handler={EntryById}/>
         <Route name="tags" handler={Tags}/>
         <DefaultRoute handler={Entries}/>
     </Route>
